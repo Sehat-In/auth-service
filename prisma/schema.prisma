@@ -18,6 +18,7 @@ model User{
   username String? @unique
   email String? @unique
   password String? 
+  role Role @default(DEFAULT)
   accountType AccountType
   profile Profile?
 }
@@ -33,5 +34,10 @@ model Profile{
 
 enum AccountType{
   GOOGLE
+  DEFAULT
+}
+
+enum Role{
+  ADMIN
   DEFAULT
 }
