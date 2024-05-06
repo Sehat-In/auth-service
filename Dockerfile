@@ -21,7 +21,7 @@ ENV SALT_ROUNDS ${SALT_ROUNDS}
 ENV PORT ${PORT}
 
 
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 COPY . .
 
