@@ -3,20 +3,21 @@ import { JwtService } from '@nestjs/jwt';
 import { CustomUnauthorizedException, UserAlreadyDefinedException } from 'src/common';
 import { PrismaService } from 'src/prisma';
 import * as bcrypt from 'bcrypt';
+import axios from 'axios';
 
 @Injectable()
 export class AuthenticationService {
     constructor(private jwtService: JwtService,
         private prismaService: PrismaService) { }
 
-    async callbackGoogle(request: any) {
+    async callbackGoogle(request: any, response: any) {
         if (!request.user) throw new CustomUnauthorizedException();
         let user: any = await this.prismaService.user.findUnique({ where: { email: request.user.email } });
         if (!user) {
             user = await this.registerGoogle(request)
         }
 
-        const profile = this.prismaService.profile.findUnique({ where: { userId: user.id } });
+        const profile = await this.prismaService.profile.findUnique({ where: { userId: user.id } });
         const payload = {
             id: user.id,
             username: user.username,
@@ -25,13 +26,14 @@ export class AuthenticationService {
             profile: profile
         }
         const result = { ...payload, ...this.generateToken(payload) };
-        return result;
+        response.cookie('user', JSON.stringify(result), { httpOnly: false, secure: true, sameSite: 'none', maxAge: 1000*60*10});
+        response.redirect(process.env.GOOGLE_REDIRECT_URL + '/login/handler');
     }
 
     async login(request) {
         const user = await this.prismaService.user.findUnique({ where: { username: request.username } });
         if (!user || !await this.matchPassword(request.password, user.password)) throw new CustomUnauthorizedException();
-        const profile = this.prismaService.profile.findUnique({ where: { userId: user.id } });
+        const profile = await this.prismaService.profile.findUnique({ where: { userId: user.id } });
         const payload = {
             id: user.id,
             username: user.username,

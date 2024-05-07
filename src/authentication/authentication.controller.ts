@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Post, Redirect, Req, Res, UseGuards, UsePipes } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRequest } from './dto';
@@ -9,8 +9,8 @@ export class AuthenticationController {
     
     @Get('login-google/callback')
     @UseGuards(AuthGuard('google'))
-    async loginGoogleRedirect(@Req() request) {
-        return this.authService.callbackGoogle(request);
+    async loginGoogleRedirect(@Req() request, @Res() response) {
+        await this.authService.callbackGoogle(request, response);
     }
 
     @Get('login-google')

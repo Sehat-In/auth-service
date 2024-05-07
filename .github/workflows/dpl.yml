@@ -72,6 +72,7 @@ jobs:
             GOOGLE_CLIENT_ID=${{secrets.GOOGLE_CLIENT_ID}}
             GOOGLE_CLIENT_SECRET=${{secrets.GOOGLE_CLIENT_SECRET}}
             GOOGLE_CALLBACK_URL=${{secrets.GOOGLE_CALLBACK_URL}}
+            GOOGLE_REDIRECT_URL=${{secrets.GOOGLE_REDIRECT_URL}}
             SALT_ROUNDS=${{secrets.SALT_ROUNDS}}
             PORT=${{secrets.PORT}}
     if: github.ref == 'refs/heads/main'
