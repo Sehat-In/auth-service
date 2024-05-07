@@ -43,7 +43,7 @@ export class AuthenticationController {
     return this.authService.refresh(request.user);
   }
 
-  @Get('dummy')
+  @Post('dummy')
   async dummy(@Req() request) {
     return new Response('hello auth!');
   }
