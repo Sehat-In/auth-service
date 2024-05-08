@@ -28,7 +28,7 @@ export class AuthenticationService {
         const result = { ...payload, ...this.generateToken(payload) };
         const key = await bcrypt.hash(result.accessToken, Number(process.env.SALT_ROUNDS));
     
-        response.redirect(process.env.GOOGLE_REDIRECT_URL + '/api/v1/login/handler/?key=' + key);
+        response.redirect(process.env.GOOGLE_REDIRECT_URL + '/login/handler/?key=' + key);
     }
 
     async login(request) {
