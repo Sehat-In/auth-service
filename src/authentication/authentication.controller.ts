@@ -44,7 +44,8 @@ export class AuthenticationController {
   }
 
   @Post('dummy')
-  async dummy(@Req() request) {
-    return new Response('hello auth!');
+  async dummy(@Req() request, @Res() response) {
+    const cookies = response.getHeaders()['set-cookie'];    
+    return new Response(cookies);
   }
 }
