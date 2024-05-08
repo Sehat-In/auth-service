@@ -29,21 +29,23 @@ export class AuthenticationController {
 
   @Post('login')
   async login(@Body() request: UserRequest) {
-    return this.authService.login(request);
+    return await this.authService.login(request);
   }
 
   @Post('register')
   async register(@Body() request: UserRequest) {
-    return this.authService.register(request);
+    return await this.authService.register(request);
   }
 
   @Get('refresh')
   @UseGuards(AuthGuard('jwt'))
   async refresh(@Req() request) {
-    return this.authService.refresh(request.user);
+    return await this.authService.refresh(request.user);
   }
 
-  @Post('dummy')
-  async dummy(@Req() request, @Res() response) {
+  @Post('get-data-from-token')
+  @UseGuards(AuthGuard('jwt'))
+  async getDataFromToken(@Req() request){
+    return await this.authService.getDataFromToken(request.user);
   }
 }

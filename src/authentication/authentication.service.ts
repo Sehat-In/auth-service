@@ -81,6 +81,17 @@ export class AuthenticationService {
         return { id: user.id, username: user.username, email: user.email, accountType: user.accountType, profile: profile };
     }
 
+    async getDataFromToken(payload:any) {
+        const data = {
+            id: payload.id,
+            username: payload.username,
+            email: payload.email,
+            accountType: payload.accountType,
+            profile: payload.profile,
+        }
+        return {data, ...this.generateToken(data)}
+    }
+
     async refresh(payload: any) {
         return this.generateToken({
             id: payload.id,
