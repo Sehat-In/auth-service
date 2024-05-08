@@ -43,7 +43,7 @@ export class AuthenticationController {
     return await this.authService.refresh(request.user);
   }
 
-  @Post('get-data-from-token')
+  @Get('get-data-from-token')
   @UseGuards(AuthGuard('jwt'))
   async getDataFromToken(@Req() request){
     return await this.authService.getDataFromToken(request.user);
