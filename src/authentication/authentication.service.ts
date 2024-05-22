@@ -88,7 +88,7 @@ export class AuthenticationService {
             accountType: payload.accountType,
             profile: payload.profile,
         }
-        return {data, ...this.generateToken(data)}
+        return {...data, ...this.generateToken(data)}
     }
 
     async refresh(payload: any) {
