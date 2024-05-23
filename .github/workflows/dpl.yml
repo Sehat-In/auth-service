@@ -91,8 +91,12 @@ jobs:
       - name: SSH to google cloud
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{secrets.GCP_USERNAME}}@${{secrets.EXTERNAL_IP}} "
-          sudo docker container rm -f sehatin_auth_service || true &&
+          sudo docker container rm -f sehatin_auth_service1 || true &&
+          sudo docker container rm -f sehatin_auth_service2 || true &&
+          sudo docker container rm -f sehatin_auth_service3 || true &&
           sudo docker image rm -f ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest || true &&
           sudo docker pull ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest &&
-          sudo docker run --name sehatin_auth_service -d -p ${{secrets.PORT}}:${{secrets.PORT}} ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest"
+          sudo docker run --name sehatin_auth_service1 -d -p 5000:${{secrets.PORT}} ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest &&
+          sudo docker run --name sehatin_auth_service2 -d -p 5001:${{secrets.PORT}} ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest &&
+          sudo docker run --name sehatin_auth_service3 -d -p 5002:${{secrets.PORT}} ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest"
     if: github.ref == 'refs/heads/main'
