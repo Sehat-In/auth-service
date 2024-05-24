@@ -65,6 +65,7 @@ export class AuthenticationService {
     async registerGoogle(request: any) {
         const user = await this.prismaService.user.create({
             data: {
+                username: request.user.email,
                 email: request.user.email,
                 accountType: 'GOOGLE',
                 profile: {
